@@ -14,8 +14,9 @@ function initMap() {
 
     const map = new google.maps.Map(document.getElementById('map'), {
         zoom: 7,
-        center: glasgowCoords, // General center of Scotland
+        center: glasgowCoords, 
         gestureHandling: 'greedy',
+        disableDefaultUI: true, // Disable zoom control and map type
         styles: [
             {
                 "featureType": "poi",
@@ -24,6 +25,36 @@ function initMap() {
             }
         ]
     });
+
+    // User location marker
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+            const userLocation = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+
+            new google.maps.Marker({
+                position: userLocation,
+                map: map,
+                title: "Your Location",
+                icon: {
+                    path: google.maps.SymbolPath.CIRCLE,
+                    scale: 8,
+                    fillColor: "#FF0000",
+                    fillOpacity: 0.8,
+                    strokeWeight: 2,
+                    strokeColor: "#FFFFFF"
+                }
+            });
+
+            map.setCenter(userLocation);
+        }, () => {
+            console.log('Geolocation service failed');
+        });
+    } else {
+        console.log('Geolocation not supported');
+    }
 
     const locations = [
         { name: "Stirling Castle", position: { lat: 56.1236, lng: -3.9416 }, description: "A grand medieval fortress.", instagram: "https://www.instagram.com/explore/tags/stirlingcastle/" },
@@ -90,11 +121,6 @@ function initMap() {
             document.getElementById('locationsModal').classList.add('active');
             document.getElementById('listIcon').innerHTML = '<i class="fas fa-map"></i>';
         }
-    });
-
-    document.getElementById('locationsModal').addEventListener('click', () => {
-        document.getElementById('locationsModal').classList.remove('active');
-        document.getElementById('listIcon').innerHTML = '&#9776;';
     });
 }
 

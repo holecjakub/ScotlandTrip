@@ -1,0 +1,26 @@
+{
+  "name": "Scotland Sightseeing Map",
+  "short_name": "Sightseeing Map",
+  "description": "Explore popular nature and city sights in Scotland with an interactive map.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#0a84ff",
+  "icons": [
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

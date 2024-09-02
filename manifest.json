@@ -4,8 +4,8 @@
   "description": "Explore popular nature and city sights in Scotland with an interactive map.",
   "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#121212",
-  "theme_color": "#0a84ff",
+  "background_color": "#000",
+  "theme_color": "#000",
   "icons": [
     {
       "src": "icons/icon-192x192.png",

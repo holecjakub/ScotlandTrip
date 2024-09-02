@@ -43,6 +43,8 @@
             font-weight: 600;
             margin: 0 0 10px 0;
             color: #ffffff;
+            width: 100%;
+            text-align: center;
         }
         .description {
             font-size: 14px;
@@ -84,12 +86,18 @@
         #copyBtn {
             background-color: #f9a825;
             color: white;
-            border-radius: 50px;
-            padding: 8px 16px;
+            border-radius: 50%;
+            padding: 10px;
             position: absolute;
             top: 15px;
             right: 15px;
             font-size: 14px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
         #copyBtn:active {
             background-color: #c68400;
@@ -167,7 +175,7 @@
 <body>
     <div id="map"></div>
     <div id="info">
-        <button class="btn" id="copyBtn"><i class="fas fa-copy"></i>Copy</button>
+        <button class="btn" id="copyBtn"><i class="fas fa-copy"></i></button>
         <h2 id="locationName"></h2>
         <p class="description" id="locationDescription"></p>
         <p class="distance" id="locationDistance"></p>

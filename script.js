@@ -1,3 +1,5 @@
+let map;
+
 function calculateDistance(lat1, lon1, lat2, lon2) {
     const R = 6371; // Radius of the earth in km
     const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -12,7 +14,7 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 function initMap() {
     const glasgowCoords = { lat: 55.8642, lng: -4.2518 };
 
-    const map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(document.getElementById('map'), {
         zoom: 7,
         center: glasgowCoords, // General center of Scotland
         gestureHandling: 'greedy',
@@ -50,56 +52,83 @@ function initMap() {
         });
 
         marker.addListener('click', () => {
-            document.getElementById('locationName').innerText = location.name;
-            document.getElementById('locationDescription').innerText = location.description;
-
-            const distance = calculateDistance(glasgowCoords.lat, glasgowCoords.lng, location.position.lat, location.position.lng);
-            const travelTime = (distance / 60).toFixed(2); // Assuming 60 km/h average speed
-            document.getElementById('locationDistance').innerText = `${distance.toFixed(2)} km (${travelTime} hours) from Glasgow`;
-
-            document.getElementById('searchBtn').onclick = () => window.open(`https://www.google.com/search?q=${encodeURIComponent(location.name)}`, '_blank');
-            document.getElementById('copyBtn').onclick = () => {
-                navigator.clipboard.writeText(location.name);
-                alert(`${location.name} copied to clipboard!`);
-            };
-            document.getElementById('instagramBtn').onclick = () => window.open(location.instagram, '_blank');
-
-            document.getElementById('info').classList.add('active');
+            showLocationDetails(location);
         });
-
-        const listItem = document.createElement('div');
-        listItem.className = 'locationItem';
-        listItem.innerHTML = `<button>${location.name}</button>`;
-        listItem.querySelector('button').onclick = () => {
-            map.setCenter(location.position);
-            map.setZoom(10);
-            google.maps.event.trigger(marker, 'click');
-            document.getElementById('locationsModal').classList.remove('active');
-        };
-        document.getElementById('locationsList').appendChild(listItem);
     });
 
-    map.addListener('click', () => {
-        document.getElementById('info').classList.remove('active');
-    });
+    populateLocationsList(locations, glasgowCoords);
+}
 
-    document.getElementById('listIcon').addEventListener('click', () => {
-        if (document.getElementById('locationsModal').classList.contains('active')) {
-            document.getElementById('locationsModal').classList.remove('active');
-            document.getElementById('listIcon').innerHTML = '&#9776;';
-        } else {
-            document.getElementById('locationsModal').classList.add('active');
-            document.getElementById('listIcon').innerHTML = '<i class="fas fa-map"></i>';
-        }
-    });
+function showLocationDetails(location) {
+    const glasgowCoords = { lat: 55.8642, lng: -4.2518 };
+    document.getElementById('locationName').innerText = location.name;
+    document.getElementById('locationDescription').innerText = location.description;
 
-    document.getElementById('locationsModal').addEventListener('click', (event) => {
-        if (event.target === document.getElementById('locationsModal')) {
-            document.getElementById('locationsModal').classList.remove('active');
-            document.getElementById('listIcon').innerHTML = '&#9776;';
-        }
+    const distance = calculateDistance(glasgowCoords.lat, glasgowCoords.lng, location.position.lat, location.position.lng);
+    const travelTime = (distance / 60).toFixed(2); // Assuming 60 km/h average speed
+    document.getElementById('locationDistance').innerText = `${distance.toFixed(2)} km (${travelTime} hours) from Glasgow`;
+
+    document.getElementById('searchBtn').onclick = () => window.open(`https://www.google.com/search?q=${encodeURIComponent(location.name)}`, '_blank');
+    document.getElementById('copyBtn').onclick = () => {
+        navigator.clipboard.writeText(location.name);
+        alert(`${location.name} copied to clipboard!`);
+    };
+    document.getElementById('instagramBtn').onclick = () => window.open(location.instagram, '_blank');
+
+    document.getElementById('info').classList.add('active');
+}
+
+function populateLocationsList(locations, glasgowCoords) {
+    const listContainer = document.getElementById('locations-list');
+    listContainer.innerHTML = '';
+
+    locations.forEach(location => {
+        const distance = calculateDistance(glasgowCoords.lat, glasgowCoords.lng, location.position.lat, location.position.lng);
+        const travelTime = (distance / 60).toFixed(2);
+
+        const item = document.createElement('div');
+        item.className = 'location-item';
+        item.innerHTML = `
+            <h3>${location.name}</h3>
+            <p>${location.description}</p>
+            <p>${distance.toFixed(2)} km (${travelTime} hours) from Glasgow</p>
+            <button class="search-btn">Search on Google</button>
+            <button class="instagram-btn">Open in Instagram</button>
+        `;
+
+        item.querySelector('.search-btn').onclick = () => window.open(`https://www.google.com/search?q=${encodeURIComponent(location.name)}`, '_blank');
+        item.querySelector('.instagram-btn').onclick = () => window.open(location.instagram, '_blank');
+
+        listContainer.appendChild(item);
     });
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            if (tab.dataset.tab === 'itinerary') {
+                document.getElementById('map-container').style.display = 'block';
+                document.getElementById('locations-list').style.display = 'none';
+            } else {
+                document.getElementById('map-container').style.display = 'none';
+                document.getElementById('locations-list').style.display = 'block';
+            }
+        });
+    });
+
+    document.getElementById('expand-map').addEventListener('click', () => {
+        document.getElementById('map-container').classList.toggle('fullscreen');
+        google.maps.event.trigger(map, 'resize');
+    });
+
+    document.getElementById('close-app').addEventListener('click', () => {
+        // Implement app closing logic here
+        console.log('Closing app');
+    });
+});
 
 // Register service worker
 if ('serviceWorker' in navigator) {

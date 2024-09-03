@@ -22,8 +22,8 @@ body, html {
     position: absolute;
     top: 20px;
     right: 20px;
-    background-color: #fff;
-    color: black;
+    background-color: #0a84ff;
+    color: white;
     border-radius: 50%;
     padding: 10px;
     font-size: 20px;
@@ -44,15 +44,15 @@ body, html {
     width: 100%;
     max-width: 400px;
     max-height: 100%;
-    background-color: #1c1c1e;
+    background-color: #1c1c1e; /* Fully opaque background */
     display: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     overflow-y: auto; /* Ensures scrolling if content is too tall */
-    padding: 0; /* Removed padding to eliminate translucent effect */
     box-sizing: border-box;
     border-radius: 20px; /* Optional: keep this for rounded corners */
+    padding: 20px; /* Add padding to the inside of the modal */
 }
 
 #locationsModal.active {
@@ -61,7 +61,7 @@ body, html {
 
 #locationsList {
     width: 100%;
-    padding: 20px;
+    padding: 0; /* Content within the modal can have its own padding */
     box-sizing: border-box;
 }
 

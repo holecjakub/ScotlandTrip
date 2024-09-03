@@ -14,7 +14,7 @@ function initMap() {
 
     const map = new google.maps.Map(document.getElementById('map'), {
         zoom: 7,
-        center: glasgowCoords, 
+        center: glasgowCoords,
         gestureHandling: 'greedy',
         disableDefaultUI: true // Disable zoom control and map type
     });
@@ -72,6 +72,7 @@ function initMap() {
             title: location.name
         });
 
+        // Event listener for marker click
         marker.addListener('click', () => {
             document.getElementById('locationName').innerText = location.name;
             document.getElementById('locationDescription').innerText = location.description;

@@ -8,20 +8,23 @@
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div id="statusBarBlur"></div>
-    <div id="map"></div>
-    <div id="info">
-        <button class="btn" id="copyBtn"><i class="fas fa-copy"></i></button>
-        <h2 id="locationName"></h2>
-        <p class="description" id="locationDescription"></p>
-        <p class="distance" id="locationDistance"></p>
-        <button class="btn" id="searchBtn"><i class="fas fa-search"></i>Search on Google</button>
-        <button class="btn" id="instagramBtn"><i class="fab fa-instagram"></i>Open in Instagram</button>
+    <div id="app-container">
+        <div id="map-container">
+            <div id="map"></div>
+        </div>
+        <div id="info">
+            <button class="btn" id="copyBtn"><i class="fas fa-copy"></i></button>
+            <h2 id="locationName"></h2>
+            <p class="description" id="locationDescription"></p>
+            <p class="distance" id="locationDistance"></p>
+            <button class="btn" id="searchBtn"><i class="fas fa-search"></i>Search on Google</button>
+            <button class="btn" id="instagramBtn"><i class="fab fa-instagram"></i>Open in Instagram</button>
+        </div>
     </div>
     <div id="listIcon">&#9776;</div>
     <div id="locationsModal">

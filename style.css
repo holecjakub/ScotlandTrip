@@ -23,14 +23,23 @@ body, html {
     outline-offset: -2px;
 }
 
-#statusBarEffect {
+#statusBarBlur {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    height: 20px; /* Adjust based on your status bar height */
-    background: linear-gradient(to bottom, black, transparent);
-    z-index: 1001;
+    height: 15px;
+    background: linear-gradient(to bottom, 
+                rgba(0,0,0,1) 0%,
+                rgba(0,0,0,0.8) 20%,
+                rgba(0,0,0,0.6) 40%,
+                rgba(0,0,0,0.4) 60%,
+                rgba(0,0,0,0.2) 80%,
+                rgba(0,0,0,0) 100%);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 1000;
+    pointer-events: none; /* Allows clicking through the element */
 }
 
 #info {
@@ -131,7 +140,7 @@ h2 {
 
 #listIcon {
     position: fixed;
-    top: env(safe-area-inset-top, 20px);
+    top: calc(env(safe-area-inset-top, 20px) + 15px); /* Adjusted for status bar blur */
     right: 20px;
     background-color: #0a84ff;
     color: white;
@@ -140,7 +149,7 @@ h2 {
     font-size: 20px;
     text-align: center;
     cursor: pointer;
-    z-index: 1000;
+    z-index: 1001; /* Ensure it's above the blur effect */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -242,7 +251,11 @@ h2 {
         padding-bottom: calc(env(safe-area-inset-bottom) + 15px);
     }
 
-    #statusBarEffect {
-        height: env(safe-area-inset-top);
+    #statusBarBlur {
+        height: calc(env(safe-area-inset-top) + 15px);
+    }
+
+    #listIcon {
+        top: calc(env(safe-area-inset-top) + 20px);
     }
 }

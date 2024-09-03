@@ -16,6 +16,7 @@ function initMap() {
         zoom: 7,
         center: glasgowCoords, // General center of Scotland
         gestureHandling: 'greedy',
+        disableDefaultUI: true, // Remove Google Maps controls
         styles: [
             {
                 "featureType": "poi",
@@ -92,9 +93,11 @@ function initMap() {
         }
     });
 
-    document.getElementById('locationsModal').addEventListener('click', () => {
-        document.getElementById('locationsModal').classList.remove('active');
-        document.getElementById('listIcon').innerHTML = '&#9776;';
+    document.getElementById('locationsModal').addEventListener('click', (event) => {
+        if (event.target === document.getElementById('locationsModal')) {
+            document.getElementById('locationsModal').classList.remove('active');
+            document.getElementById('listIcon').innerHTML = '&#9776;';
+        }
     });
 }
 
@@ -107,3 +110,19 @@ if ('serviceWorker' in navigator) {
         console.log('Service Worker registration failed:', error);
     });
 }
+
+// Add event listener for device orientation changes
+window.addEventListener('orientationchange', () => {
+    // Trigger a resize event to adjust the map
+    google.maps.event.trigger(map, 'resize');
+});
+
+// Add event listener for window resize
+window.addEventListener('resize', () => {
+    // Adjust UI elements if needed
+    const info = document.getElementById('info');
+    if (info.classList.contains('active')) {
+        // Ensure info panel doesn't cover more than 80% of the screen height
+        info.style.maxHeight = `${window.innerHeight * 0.8}px`;
+    }
+});
